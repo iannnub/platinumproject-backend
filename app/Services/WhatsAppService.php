@@ -15,28 +15,38 @@ class WhatsAppService
     {
         $eventDate = \Carbon\Carbon::parse($booking->event_date)->locale('id')->translatedFormat('d F Y');
         $dpFormatted = number_format($booking->dp_amount, 0, ',', '.');
-        $notesSection = $booking->notes ? "Catatan Tambahan:\n{$booking->notes}\n\n" : "";
+        $notesText = $booking->notes ? $booking->notes : '-';
 
-        $message = "*🎉 FORMAT BOOKING PLATINUM PROJECT*\n\n"
-            . "Kode Booking: {$booking->booking_code}\n"
-            . "Nama Lengkap Mempelai: {$booking->bride_names}\n"
-            . "Initial Nama: {$booking->initials}\n"
-            . "Tanggal Acara: {$eventDate}\n"
-            . "Jenis Acara: {$booking->event_type}\n"
-            . "Dekor Akad: {$booking->decoration_type}\n"
-            . "No WA: {$booking->phone}\n"
-            . "Alamat: {$booking->address}\n"
-            . "Jenis Paket: {$booking->package_type}\n"
-            . "DP Minimal: Rp {$dpFormatted}\n\n"
-            . "📍 Lokasi Google Maps:\n{$booking->maps_url}\n\n"
-            . $notesSection
-            . "PELUNASAN maksimal H - 1 SEBELUM HARI H ( dekor tidak dipasang jika belum melakukan pelunasan )";
+        $message = "✨ *FORMAT BOOKING PLATINUM PROJECT* ✨\n"
+            . "───────────────────────────\n"
+            . "📋 *INFORMASI MEMPELAI*\n"
+            . "• *Kode Booking :* {$booking->booking_code}\n"
+            . "• *Nama Mempelai :* {$booking->bride_names}\n"
+            . "• *Inisial Nama :* {$booking->initials}\n"
+            . "• *No. WhatsApp :* {$booking->phone}\n\n"
+            . "🗓️ *DETAIL ACARA & PAKET*\n"
+            . "• *Tanggal Acara :* {$eventDate}\n"
+            . "• *Jenis Acara :* {$booking->event_type}\n"
+            . "• *Dekor Akad :* {$booking->decoration_type}\n"
+            . "• *Pilihan Paket :* {$booking->package_type}\n"
+            . "• *DP Terkunci :* Rp {$dpFormatted} (Fix)\n\n"
+            . "📍 *LOKASI & ALAMAT ACARA*\n"
+            . "• *Alamat Lengkap :* {$booking->address}\n"
+            . "• *Google Maps :* {$booking->maps_url}\n\n"
+            . "📝 *CATATAN TAMBAHAN*\n"
+            . "{$notesText}\n\n"
+            . "───────────────────────────\n"
+            . "⚠️ *KETENTUAN PELUNASAN:*\n"
+            . "Pelunasan maksimal H-1 sebelum Hari H (dekorasi tidak dipasang jika belum melakukan pelunasan).\n"
+            . "───────────────────────────\n"
+            . "Halo Admin Platinum Project, saya ingin konfirmasi pemesanan dekorasi di atas. Mohon info nomor rekening untuk transfer DP Rp 1.000.000. Terima kasih!";
 
         $encoded = rawurlencode($message);
 
         return array_map(function ($phone, $index) use ($encoded) {
+            $name = ($index === 3) ? 'Admin 4 (Testing)' : 'Admin ' . ($index + 1);
             return [
-                'admin' => 'Admin ' . ($index + 1),
+                'admin' => $name,
                 'phone' => $phone,
                 'url'   => "https://wa.me/{$phone}?text={$encoded}",
             ];
