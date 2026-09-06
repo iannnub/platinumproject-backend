@@ -29,11 +29,15 @@ class BookingController extends Controller
         // Generate WhatsApp links for all 3 admins
         $waLinks = WhatsAppService::generateAdminLinks($booking);
 
+        $bookingData = (new BookingResource($booking))->resolve();
+        $bookingData['whatsapp_links'] = array_column($waLinks, 'url');
+
         return response()->json([
             'success' => true,
             'message' => 'Booking berhasil dibuat! Silakan konfirmasi via WhatsApp.',
-            'data'    => new BookingResource($booking),
+            'data'    => $bookingData,
             'wa_links' => $waLinks,
+            'whatsapp_links' => array_column($waLinks, 'url'),
         ], 201);
     }
 

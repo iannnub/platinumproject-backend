@@ -27,7 +27,12 @@ class PackageController extends Controller
     public function show(string $slug): JsonResponse
     {
         $package = Cache::remember("packages.{$slug}", 3600, function () use ($slug) {
-            return Package::where('slug', $slug)->where('is_active', true)->first();
+            return Package::where(function ($q) use ($slug) {
+                $q->where('slug', $slug);
+                if (is_numeric($slug)) {
+                    $q->orWhere('id', (int) $slug);
+                }
+            })->where('is_active', true)->first();
         });
 
         if (! $package) {

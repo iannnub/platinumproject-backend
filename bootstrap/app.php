@@ -13,8 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        // Allow cookies for Sanctum SPA authentication
-        $middleware->statefulApi();
+        // Exclude all API routes from CSRF token verification
+        $middleware->validateCsrfTokens(except: [
+            'api/*',
+        ]);
 
         // Register alias for 'admin' middleware
         $middleware->alias([

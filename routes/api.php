@@ -36,7 +36,7 @@ Route::get('/packages/{slug}', [PackageController::class, 'show']);
 
 // Booking (guest allowed)
 Route::post('/bookings', [BookingController::class, 'store'])
-     ->middleware('throttle:5,60'); // 5 bookings per 60 minutes per IP
+     ->middleware('throttle:60,1'); // 60 bookings per minute per IP
 
 // ============================================================
 // USER ROUTES (optional auth - must be logged in)
@@ -53,6 +53,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
     // Dashboard
     Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
+    Route::get('/statistics',      [DashboardController::class, 'stats']);
 
     // Bookings management
     Route::get('/bookings',         [BookingController::class, 'index']);

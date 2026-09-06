@@ -27,6 +27,9 @@ class DashboardController extends Controller
         return response()->json([
             'success' => true,
             'data'    => [
+                'total_bookings'     => $totalBookings,
+                'pending_payment'    => $pendingBookings,
+                'confirmed'          => $confirmedBookings,
                 'stats' => [
                     'total_bookings'     => $totalBookings,
                     'pending_bookings'   => $pendingBookings,
