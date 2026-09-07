@@ -113,7 +113,14 @@ class AuthController extends Controller
     // ─── Logout ───────────────────────────────────────────────────
     public function logout(Request $request): JsonResponse
     {
-        $request->user()->currentAccessToken()->delete();
+        $user = auth('sanctum')->user() ?? $request->user();
+        if ($user) {
+            if (method_exists($user, 'currentAccessToken') && $user->currentAccessToken()) {
+                $user->currentAccessToken()->delete();
+            } else {
+                $user->tokens()->delete();
+            }
+        }
 
         return response()->json([
             'success' => true,

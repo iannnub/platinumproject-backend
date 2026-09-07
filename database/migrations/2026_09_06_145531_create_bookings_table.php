@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('package_type', 100);
             $table->decimal('dp_amount', 12, 2)->default(0.00);
             $table->decimal('total_amount', 12, 2)->nullable();
-            $table->enum('payment_status', ['pending', 'dp_paid', 'paid'])->default('pending');
+            $table->enum('payment_status', ['pending', 'dp_paid', 'paid', 'fully_paid'])->default('pending');
             $table->enum('status', ['pending', 'confirmed', 'completed', 'cancelled'])->default('pending');
             $table->text('notes')->nullable();
             $table->timestamps();

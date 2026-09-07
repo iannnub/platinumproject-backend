@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BookingController;
 use App\Http\Controllers\Api\ExportController;
+use App\Http\Controllers\Api\FinancialController;
 use App\Http\Controllers\Api\PackageController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Http\Request;
@@ -38,12 +39,15 @@ Route::get('/packages/{slug}', [PackageController::class, 'show']);
 Route::post('/bookings', [BookingController::class, 'store'])
      ->middleware('throttle:60,1'); // 60 bookings per minute per IP
 
+// Logout (handles token revocation gracefully)
+Route::post('/logout',       [AuthController::class, 'logout']);
+Route::post('/admin/logout', [AuthController::class, 'logout']);
+
 // ============================================================
-// USER ROUTES (optional auth - must be logged in)
+// USER ROUTES (must be logged in)
 // ============================================================
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user',             [AuthController::class, 'me']);
-    Route::post('/logout',          [AuthController::class, 'logout']);
     Route::get('/user/bookings',    [BookingController::class, 'myBookings']);
 });
 
@@ -63,4 +67,16 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
 
     // Export
     Route::get('/export/excel', [ExportController::class, 'excel']);
+
+    // Financial Management
+    Route::get('/financial/dashboard',          [FinancialController::class, 'dashboard']);
+    Route::get('/financial/cash-flow',          [FinancialController::class, 'cashFlow']);
+    Route::get('/financial/profit-by-package',  [FinancialController::class, 'profitByPackage']);
+    Route::get('/financial/bookings',           [FinancialController::class, 'bookings']);
+    Route::get('/financial/booking/{id}',       [FinancialController::class, 'bookingDetail']);
+    Route::post('/financial/payment',           [FinancialController::class, 'recordPayment']);
+    Route::post('/financial/expense',           [FinancialController::class, 'addExpense']);
+    Route::put('/financial/expense/{id}',       [FinancialController::class, 'updateExpense']);
+    Route::delete('/financial/expense/{id}',    [FinancialController::class, 'deleteExpense']);
 });
+
