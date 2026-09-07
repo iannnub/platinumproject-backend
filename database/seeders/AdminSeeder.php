@@ -17,7 +17,7 @@ class AdminSeeder extends Seeder
                 'name'     => 'Admin Platinum Project',
                 'email'    => 'admin@platinumproject.my.id',
                 'phone'    => '085700751642',
-                'password' => Hash::make('PlatinumAdmin@2026'),
+                'password' => Hash::make(env('ADMIN_DEFAULT_PASSWORD', 'PlatinumAdmin@2026')),
                 'role'     => 'admin',
             ]
         );

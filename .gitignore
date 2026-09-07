@@ -1,28 +1,68 @@
-*.log
-.DS_Store
-.env*
-.phpactor.json
-.phpunit.result.cache
-/.fleet
-/.idea
-/.nova
-/.phpunit.cache
-/.vscode
-/.zed
-/auth.json
-/node_modules
+# Environment & Secrets (Zero tolerance - all .env ignored)
+.env
+.env.*
+*.key
+*.pem
+*.p12
+secrets/
+credentials/
+
+# Dependencies
+/vendor/
+node_modules/
+
+# Build & Cache
+/bootstrap/cache/*
 /public/build
 /public/hot
 /public/storage
 /storage/*.key
 /storage/pail
-/vendor
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/*
+/storage/debugbar/*
+
+# IDE & OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+/.fleet
+/.nova
+/.zed
 Homestead.json
 Homestead.yaml
-Thumbs.db
+
+# Database
+*.sql
+*.dump
+*.sqlite
+database/*.sqlite
+
+# Testing
+.phpunit.result.cache
+/.phpunit.cache
+.phpactor.json
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Composer
+composer.phar
+/auth.json
 
 # Markdown files (only README.md is committed)
 *.md
 !README.md
 **/*.md
 !**/README.md
+
