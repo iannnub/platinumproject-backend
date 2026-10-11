@@ -70,9 +70,10 @@ class BookingsExport implements FromQuery, WithHeadings, WithMapping, WithStyles
         $no++;
 
         $paymentLabels = [
-            'pending' => 'Belum Bayar',
-            'dp_paid' => 'DP Terbayar',
-            'paid'    => 'Lunas',
+            'pending'    => 'Belum Bayar',
+            'dp_paid'    => 'DP Terbayar',
+            'paid'       => 'Lunas',
+            'fully_paid' => 'Lunas',
         ];
         $statusLabels = [
             'pending'   => 'Pending',

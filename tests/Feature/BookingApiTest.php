@@ -135,4 +135,43 @@ class BookingApiTest extends TestCase
                 'meta' => ['current_page', 'last_page', 'total'],
             ]);
     }
+
+    public function test_admin_can_update_booking_with_fully_paid_status_and_recalculates_remaining(): void
+    {
+        $admin = User::where('role', 'admin')->first();
+        $token = $admin->createToken('test-token')->plainTextToken;
+
+        $booking = Booking::create([
+            'booking_code'    => '#PB20261011999',
+            'bride_names'     => 'Rina & Dani',
+            'initials'        => 'R & D',
+            'event_date'      => now()->addDays(20)->format('Y-m-d'),
+            'event_type'      => 'Wedding',
+            'decoration_type' => 'Dalam',
+            'phone'           => '081299998888',
+            'address'         => 'Jl. Merdeka No. 10, Jakarta',
+            'lat'             => -6.2,
+            'lng'             => 106.8,
+            'maps_url'        => 'https://maps.google.com/?q=-6.2,106.8',
+            'package_type'    => 'LITE',
+            'dp_amount'       => 1000000,
+            'total_amount'    => 5000000,
+            'total_paid'      => 1000000,
+            'remaining_amount'=> 4000000,
+            'payment_status'  => 'dp_paid',
+            'status'          => 'confirmed',
+        ]);
+
+        $res = $this->withHeader('Authorization', "Bearer {$token}")
+            ->patchJson("/api/admin/bookings/{$booking->id}", [
+                'payment_status' => 'fully_paid',
+                'total_amount'   => 6000000,
+            ]);
+
+        $res->assertStatus(200)
+            ->assertJson(['success' => true])
+            ->assertJsonPath('data.payment_status', 'fully_paid')
+            ->assertJsonPath('data.total_amount', 6000000)
+            ->assertJsonPath('data.remaining_amount', 5000000);
+    }
 }

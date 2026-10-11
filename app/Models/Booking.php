@@ -63,10 +63,21 @@ class Booking extends Model
         return $this->hasMany(Expense::class);
     }
 
+    protected static function booted(): void
+    {
+        static::saving(function (Booking $booking) {
+            if ($booking->total_amount !== null) {
+                $booking->remaining_amount = max(0, (float) $booking->total_amount - (float) ($booking->total_paid ?? 0));
+            }
+        });
+    }
+
     // Computed attributes
     public function getTotalExpensesAttribute(): float
     {
-        return (float) $this->expenses()->sum('amount');
+        return $this->relationLoaded('expenses')
+            ? (float) $this->expenses->sum('amount')
+            : (float) $this->expenses()->sum('amount');
     }
 
     // Cash Position = Total Paid - Total Expenses (Real cash flow)

@@ -1,6 +1,7 @@
 # Environment & Secrets (Zero tolerance - all .env ignored)
 .env
 .env.*
+!.env.example
 *.key
 *.pem
 *.p12
@@ -63,6 +64,8 @@ composer.phar
 # Markdown files (only README.md is committed)
 *.md
 !README.md
+!PROJECT_CONTEXT_AI.md
 **/*.md
 !**/README.md
+!**/PROJECT_CONTEXT_AI.md
 

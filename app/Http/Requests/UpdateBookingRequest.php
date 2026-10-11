@@ -15,7 +15,7 @@ class UpdateBookingRequest extends FormRequest
     {
         return [
             'status'         => ['sometimes', 'in:pending,confirmed,completed,cancelled'],
-            'payment_status' => ['sometimes', 'in:pending,dp_paid,paid'],
+            'payment_status' => ['sometimes', 'in:pending,dp_paid,paid,fully_paid'],
             'total_amount'   => ['sometimes', 'nullable', 'numeric', 'min:0'],
             'notes'          => ['sometimes', 'nullable', 'string', 'max:1000'],
             'dp_amount'      => ['sometimes', 'numeric', 'min:0'],
