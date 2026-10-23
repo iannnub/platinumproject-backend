@@ -1,0 +1,39 @@
+services:
+  - type: web
+    name: platinumproject-backend
+    env: docker
+    plan: free
+    region: singapore
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/health
+    envVars:
+      - key: APP_NAME
+        value: "Platinum Project"
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        generateValue: true
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: aws-0-ap-northeast-2.pooler.supabase.com
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_DATABASE
+        value: postgres
+      - key: DB_USERNAME
+        value: postgres.holkukfuqebzbelvapwd
+      - key: DB_PASSWORD
+        sync: false
+      - key: DB_SSLMODE
+        value: require
+      - key: SUPABASE_URL
+        value: https://holkukfuqebzbelvapwd.supabase.co
+      - key: SUPABASE_KEY
+        value: sb_publishable_onz-MqZFlr4iHMZebAAdfA_ePBqDIeC
+      - key: SUPABASE_SECRET
+        sync: false
+      - key: SANCTUM_STATEFUL_DOMAINS
+        value: localhost:3000,platinumproject.my.id
