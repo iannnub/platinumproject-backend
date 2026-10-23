@@ -24,12 +24,12 @@ Route::get('/health', fn () => response()->json([
 // PUBLIC ROUTES (no auth needed)
 // ============================================================
 
-// Auth
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login',    [AuthController::class, 'login']);
+// Auth with rate limiting
+Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:10,1');
+Route::post('/login',    [AuthController::class, 'login'])->middleware('throttle:10,1');
 
-// Admin login
-Route::post('/admin/login', [AuthController::class, 'adminLogin']);
+// Admin login with brute force protection
+Route::post('/admin/login', [AuthController::class, 'adminLogin'])->middleware('throttle:5,1');
 
 // Packages (public catalog)
 Route::get('/packages',       [PackageController::class, 'index']);

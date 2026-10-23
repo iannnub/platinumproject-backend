@@ -12,16 +12,18 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
+    'allowed_origins' => array_filter([
         'http://localhost:3000',
+        'http://127.0.0.1:3000',
         'http://localhost:3001',
         'https://platinumproject.my.id',
         'https://www.platinumproject.my.id',
-    ],
+        env('FRONTEND_URL'),
+    ]),
 
     'allowed_origins_patterns' => [
-        // Vercel preview URLs
-        '#^https://platinumproject.*\.vercel\.app$#',
+        // Vercel preview & deployment URLs
+        '#^https://.*\.vercel\.app$#',
     ],
 
     'allowed_headers' => ['*'],
