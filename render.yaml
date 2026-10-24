@@ -35,5 +35,7 @@ services:
         value: sb_publishable_onz-MqZFlr4iHMZebAAdfA_ePBqDIeC
       - key: SUPABASE_SECRET
         sync: false
+      - key: FRONTEND_URL
+        value: https://platinumproject.vercel.app
       - key: SANCTUM_STATEFUL_DOMAINS
-        value: localhost:3000,platinumproject.my.id
+        value: localhost:3000,platinumproject.vercel.app,platinumproject.my.id
