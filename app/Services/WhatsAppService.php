@@ -8,7 +8,6 @@ class WhatsAppService
         '6285700751642', // Admin 1
         '6282325617934', // Admin 2
         '6285707752030', // Admin 3
-        '6282132167400', // Admin 4 (Testing)
     ];
 
     public static function generateAdminLinks($booking): array
@@ -44,7 +43,7 @@ class WhatsAppService
         $encoded = rawurlencode($message);
 
         return array_map(function ($phone, $index) use ($encoded) {
-            $name = ($index === 3) ? 'Admin 4 (Testing)' : 'Admin ' . ($index + 1);
+            $name = 'Admin ' . ($index + 1);
             return [
                 'admin' => $name,
                 'phone' => $phone,
